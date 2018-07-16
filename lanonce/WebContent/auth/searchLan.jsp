@@ -25,30 +25,36 @@
     <%@ include file="adminMenuLan.jsp" %>
     
     </br>
+    <h3>Recherchez un jeux: </h3>
+    <input type="text" id="search" name="search" class="search" />
+    <input type="button" id="bouton" value="Rechercher">
     
-    <div class=baniere>
-		<div id=baniere_gauche> 
-			<h3>Recherchez un jeux: </h3>
-		    <input type="text" id="search" name="search" class="search" />
-            <input type="button" id="bouton" value="Rechercher">
-            
-            </br>
-            
-            <div id="display"></div>
-                            
-		</div>
-		<div id=baniere_droite>
-			<div id="map_canvas"></div>
-		</div>
+    <div class="baniere row">
+    <div class="col-lg-6 toto">             
+      </br>
+      <div id="display"></div>
+    </div>
+    <div class="col-lg-6">
+    	<div id="map_canvas"></div>
+    </div>
+		
+		
 	</div>
+    
+    </div>
+    
 	
     
-    </br></br> </br></br> </br></br> 
     <%@ include file="adminFooter.jsp" %>
     <script>
-    
+    map = new google.maps.Map(
+    	    document.getElementById("map_canvas"), {
+    	      center: new google.maps.LatLng(48.856614 , 2.352222),
+    	      zoom: 13,
+    	      mapTypeId: google.maps.MapTypeId.ROADMAP
+    	    });
     $("#bouton").click(affichage);
-   
+   		
     	var geocoder;
     	var map;
     	var bounds = new google.maps.LatLngBounds();
@@ -94,7 +100,7 @@
     	        bounds.extend(marker.getPosition());
     	        map.fitBounds(bounds);
     	      } else {
-    	        alert("geocode of " + address + " failed:" + status);
+    	        
     	      }
     	    });
     	}
@@ -149,38 +155,41 @@
     	    				for(var key in obj) {
     	    					if(key == 1) {
             	    				var valueObj = Object.values(obj);
+            	    				DOM += '<div class="result" >';
+            	    				DOM += '<div class="imgsearch" >';
+    	    						DOM += '<img src="../images/img/'+valueObj[0].picture+'">';
+        							DOM += "</div>";
+        							DOM += '<div class="recherche">';
+        							DOM += "<a href='/lanonce/auth/displayLan?id="+ valueObj[0].id_url +"'";
             	    				
-            	    				DOM += "<div class="+ "recherche" + ">";
     							DOM += "<tr>";
-    							DOM += "<h1> LAN </h1>";
-    							DOM += "<td><h4>Date: " + valueObj[0].date + "</h4></td>";
-    							DOM += "<td><h4>Lieux: " + valueObj[0].lieux + "</h4></td>";
-    							DOM += "<td><h4>Nom du jeux: " + valueObj[0].nameGame + "</h4></td>";
-    							DOM += "<td><h4>Picture: " + valueObj[0].picture + "</h4></td>";
+    							DOM += '<h1 class="lan"> '+valueObj[0].nameGame+' </h1>';
+    							DOM += "<td><h4> " + valueObj[0].date + "</h4></td>";
+    							DOM += "<td><h4>" + valueObj[0].lieux + "</h4></td>";
     							DOM += "</tr></br>";
-           					DOM += "<a href='/lanonce/auth/displayLan?id="+ valueObj[0].id_url +"'";
-           					DOM += "<p><button type=submit>CLIQUEZ ICI POUR PARTICIPER</button></p>";
-    							DOM += "</a>";
     							DOM += "</div>";
+    							DOM += "</div>";
+    							DOM += "</a>";
     							DOM += "</br>";
     							
     							tab = ['Location Name: ' + valueObj[0].nameGame, valueObj[0].lieux, 'Location URL']
     							tabVilles.push(tab);				
     	    					} else {
     	    						var valueObj = Object.values(obj);
-    	    						
-            	    				DOM += "<div class="+ "recherche" + ">";
+    	    						DOM += '<div class="result" >';
+    	    						DOM += '<div class="imgsearch" >';
+    	    						DOM += '<img src="../images/img/'+valueObj[0].picture+'">';
+        							DOM += "</div>";
+    	    						DOM += "<a href='/lanonce/auth/displayTournois?id="+ valueObj[0].id_url +"'";
+    	    						DOM += "<div class="+ "recherche" + ">";
     							DOM += "<tr>";
-    							DOM += "<h1> TOURNOIS </h1>";
-    							DOM += "<td><h4>Date: " + valueObj[0].date + "</h4></td>";
-    							DOM += "<td><h4>Lieux: " + valueObj[0].lieux + "</h4></td>";
-    							DOM += "<td><h4>Nom du jeux: " + valueObj[0].nameGame + "</h4></td>";
-    							DOM += "<td><h4>Picture: " + valueObj[0].picture + "</h4></td>";
+    							DOM += '<h1 class="tournois"> '+valueObj[0].nameGame+' </h1>';
+    							DOM += "<td><h4>" + valueObj[0].date + "</h4></td>";
+    							DOM += "<td><h4> " + valueObj[0].lieux + "</h4></td>";
     							DOM += "</tr></br>";
-            					DOM += "<a href='/lanonce/auth/displayTournois?id="+ valueObj[0].id_url +"'";
-            					DOM += "<p><button type=submit>CLIQUEZ ICI POUR PARTICIPER</button></p>";
-     						DOM += "</a>";
     							DOM += "</div>";
+    							DOM += "</div>";
+    							DOM += "</a>";
     							DOM += "</br>";
     							
     							tab = ['Location Name: ' + valueObj[0].nameGame, valueObj[0].lieux, 'Location URL']
@@ -196,6 +205,7 @@
     	
     	
 };
+
 
 </script>
 </body>
